@@ -43,6 +43,21 @@ public class EfficientDocument extends Document {
 		// Words are only strings of letters.  No numbers.
 		List<String> tokens = getTokens("[!?.]+|[a-zA-Z]+");
 		
+		for (int i = 0; i < tokens.size(); i++) {
+			if(isWord(tokens.get(i))){
+				numWords++;
+				numSyllables += countSyllables(tokens.get(i));
+				
+				if (i == tokens.size()-1){
+					numSentences++;
+				}
+			}
+			else {
+				numSentences++;
+			}
+		}
+		
+		
 		// TODO: Finish this method.  Remember the countSyllables method from 
 		// Document.  That will come in handy here.
 	}
@@ -57,8 +72,7 @@ public class EfficientDocument extends Document {
 	 */
 	@Override
 	public int getNumWords() {
-		//TODO: write this method.  Hint: It's simple
-	    return 0;
+		return numWords;
 	}
 
 	/**
@@ -71,8 +85,7 @@ public class EfficientDocument extends Document {
 	 */
 	@Override
 	public int getNumSentences() {
-        //TODO: write this method.  Hint: It's simple
-        return 0;
+        return numSentences;
 	}
 
 	/**
@@ -85,8 +98,7 @@ public class EfficientDocument extends Document {
 	 */
 	@Override
 	public int getNumSyllables() {
-        //TODO: write this method.  Hint: It's simple
-        return 0;
+        return numSyllables;
 	}
 	
 	// Can be used for testing
@@ -101,6 +113,30 @@ public class EfficientDocument extends Document {
                 + "(And some poaren)).  The output is: 7.5."), 15, 11, 4);
         testCase(new EfficientDocument("many???  Senteeeeeeeeeences are"), 6, 3, 2);    
 		
+	}
+	
+	protected int countSyllables(String word)
+	{
+	    //System.out.print("Counting syllables in " + word + "...");
+		int numSyllables = 0;
+		boolean newSyllable = true;
+		String vowels = "aeiouy";
+		char[] cArray = word.toCharArray();
+		for (int i = 0; i < cArray.length; i++)
+		{
+		    if (i == cArray.length-1 && cArray[i] == 'e' && newSyllable && numSyllables > 0) {
+                numSyllables--;
+            }
+		    if (newSyllable && vowels.indexOf(Character.toLowerCase(cArray[i])) >= 0) {
+				newSyllable = false;
+				numSyllables++;
+			}
+			else if (vowels.indexOf(Character.toLowerCase(cArray[i])) < 0) {
+				newSyllable = true;
+			}
+		}
+		//System.out.println( "found " + numSyllables);
+		return numSyllables;
 	}
 	
 

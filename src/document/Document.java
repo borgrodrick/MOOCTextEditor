@@ -45,31 +45,28 @@ public abstract class Document {
 	// This is a helper function that returns the number of syllables
 	// in a word.  You should write this and use it in your 
 	// BasicDocument class.
-	// You will probably NOT need to add a countWords or a countSentences method
-	// here.  The reason we put countSyllables here because we'll use it again
-	// next week when we implement the EfficientDocument class.
 	protected int countSyllables(String word)
 	{
-		String temp = text;
-	    text = word;
-	    int counter = 0;
-
-	    if (word.charAt(word.length() - 1) == 'e') {
-	      List<String> syllables = getTokens("[aeiouyAEIOUY]+");
-	      text = temp;
-
-	      if (syllables.size() == 1) {
-	        counter = syllables.size();
-	      } else if ((syllables.get(syllables.size() - 1)).charAt(0) == 'e') {
-	        counter = syllables.size() - 1;
-	      }
-
-	    } else {
-	      List<String> syllables = getTokens("[aeiouyAEIOUY]+");
-	      text = temp;
-	      counter = syllables.size();
-	    }
-	    return counter;
+	    //System.out.print("Counting syllables in " + word + "...");
+		int numSyllables = 0;
+		boolean newSyllable = true;
+		String vowels = "aeiouy";
+		char[] cArray = word.toCharArray();
+		for (int i = 0; i < cArray.length; i++)
+		{
+		    if (i == cArray.length-1 && cArray[i] == 'e' && newSyllable && numSyllables > 0) {
+                numSyllables--;
+            }
+		    if (newSyllable && vowels.indexOf(Character.toLowerCase(cArray[i])) >= 0) {
+				newSyllable = false;
+				numSyllables++;
+			}
+			else if (vowels.indexOf(Character.toLowerCase(cArray[i])) < 0) {
+				newSyllable = true;
+			}
+		}
+		//System.out.println( "found " + numSyllables);
+		return numSyllables;
 	}
 	
 	/** A method for testing
@@ -132,12 +129,10 @@ public abstract class Document {
 	/** return the Flesch readability score of this document */
 	public double getFleschScore()
 	{
-		 double score;
-		    
-		 score = 206.835 - 1.015*(this.getNumWords()/this.getNumSentences()) - 84.6*(this.getNumSyllables()/this.getNumWords());
-		    
-		 return score;
-	    
+		double wordCount = (double)getNumWords();
+		return 206.836 - (1.015 * ((wordCount)/getNumSentences())) 
+				- (84.6 * (((double)getNumSyllables())/wordCount));
+	
 	}
 	
 	

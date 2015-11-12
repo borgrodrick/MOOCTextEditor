@@ -123,8 +123,13 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddEnd()
 	{
-        // TODO: implement this test
-		
+        boolean added = list1.add(15);
+        assertTrue(added);
+        
+        Integer last = list1.get(list1.size-1);
+        
+        assertEquals("Element is added at last position",(Integer)15, last);
+       	
 	}
 
 	
@@ -132,7 +137,11 @@ public class MyLinkedListTester {
 	@Test
 	public void testSize()
 	{
-		// TODO: implement this test
+		Integer size = list1.size;
+		
+		assertEquals("Size of list is ",(Integer)3, size);
+		assertEquals("Size of empty list is ",(Integer)0, (Integer)emptyList.size);
+		 
 	}
 
 	
@@ -144,7 +153,43 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddAtIndex()
 	{
-        // TODO: implement this test
+		//test empty list, get should throw an exception
+				emptyList.add(0,1);
+				emptyList.add(1,2);
+				
+				try {
+					shortList.get(-1);
+					fail("Check out of bounds");
+				}
+				catch (IndexOutOfBoundsException e) {
+				
+				}
+				try {
+					shortList.get(2);
+					fail("Check out of bounds");
+				}
+				catch (IndexOutOfBoundsException e) {
+				
+				}
+				// test longer list contents
+				for(int i = 0; i<LONG_LIST_LENGTH; i++ ) {
+					assertEquals("Check "+i+ " element", (Integer)i, longerList.get(i));
+				}
+				
+				// test off the end of the longer array
+				try {
+					longerList.get(-1);
+					fail("Check out of bounds");
+				}
+				catch (IndexOutOfBoundsException e) {
+				
+				}
+				try {
+					longerList.get(LONG_LIST_LENGTH);
+					fail("Check out of bounds");
+				}
+				catch (IndexOutOfBoundsException e) {
+				}
 		
 	}
 	

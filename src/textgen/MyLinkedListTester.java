@@ -109,12 +109,33 @@ public class MyLinkedListTester {
 	@Test
 	public void testRemove()
 	{
+		try {
+			emptyList.remove(0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+		}
+		
 		int a = list1.remove(0);
 		assertEquals("Remove: check a is correct ", 65, a);
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
 		
-		// TODO: Add more tests here
+		try {
+			emptyList.remove(2);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		try {
+			emptyList.remove(-1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -123,10 +144,12 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddEnd()
 	{
-        boolean added = list1.add(15);
+		MyLinkedList<Integer> endList = new MyLinkedList<Integer>();
+				
+        boolean added = endList.add(15);
         assertTrue(added);
         
-        Integer last = list1.get(list1.size-1);
+        Integer last = endList.get(endList.size-1);
         
         assertEquals("Element is added at last position",(Integer)15, last);
        	
@@ -153,52 +176,69 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddAtIndex()
 	{
-		//test empty list, get should throw an exception
-				emptyList.add(0,1);
-				emptyList.add(1,2);
-				
-				try {
-					shortList.get(-1);
-					fail("Check out of bounds");
-				}
-				catch (IndexOutOfBoundsException e) {
-				
-				}
-				try {
-					shortList.get(2);
-					fail("Check out of bounds");
-				}
-				catch (IndexOutOfBoundsException e) {
-				
-				}
-				// test longer list contents
-				for(int i = 0; i<LONG_LIST_LENGTH; i++ ) {
-					assertEquals("Check "+i+ " element", (Integer)i, longerList.get(i));
-				}
-				
-				// test off the end of the longer array
-				try {
-					longerList.get(-1);
-					fail("Check out of bounds");
-				}
-				catch (IndexOutOfBoundsException e) {
-				
-				}
-				try {
-					longerList.get(LONG_LIST_LENGTH);
-					fail("Check out of bounds");
-				}
-				catch (IndexOutOfBoundsException e) {
-				}
+		try {
+			emptyList.add(2,0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
 		
+		}
+		try {
+			emptyList.add(-1, 0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
+		//add item at the start of the list
+		emptyList.add(0,1);
+		assertEquals("Item at first is ",(Integer)1, (Integer)emptyList.get(0));
+		
+		//Test insert at last position
+		emptyList.add(1,2);
+		assertEquals("Item at first is ",(Integer)1, (Integer)emptyList.get(0));
+		assertEquals("Item at second is ",(Integer)2, (Integer)emptyList.get(1));
+		
+		//test insert middle
+		emptyList.add(1,3);
+		assertEquals("Item at first is ",(Integer)1, (Integer)emptyList.get(0));
+		assertEquals("Item at second is ",(Integer)3, (Integer)emptyList.get(1));
+		assertEquals("Item at third is ",(Integer)2, (Integer)emptyList.get(2));
+		
+		//test insert last 
+		emptyList.add(0,0);
+		assertEquals("Item at first is ",(Integer)0, (Integer)emptyList.get(0));
+		assertEquals("Item at first is ",(Integer)1, (Integer)emptyList.get(1));
+		assertEquals("Item at second is ",(Integer)3, (Integer)emptyList.get(2));
+		assertEquals("Item at third is ",(Integer)2, (Integer)emptyList.get(3));
+				
 	}
 	
 	/** Test setting an element in the list */
 	@Test
 	public void testSet()
 	{
-	    // TODO: implement this test
-	    
+		try {
+			emptyList.set(0,0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		try {
+			emptyList.set(-1, 0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
+		Integer old = list1.set(0, 500);
+		
+		assertEquals("Old Item is ",(Integer)65, old);
+		assertEquals("New Item is ",(Integer)500, list1.get(0));
+		
 	}
 	
 	

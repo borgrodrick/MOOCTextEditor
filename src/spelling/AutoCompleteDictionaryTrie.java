@@ -28,8 +28,20 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 * That is, you should convert the string to all lower case as you insert it. */
 	public boolean addWord(String word)
 	{
+		TrieNode currNode = root;
+		for (char c:word.toLowerCase().toCharArray())
+		{
+			TrieNode n = currNode.getChild(c);
+			if (n == null){
+				currNode = currNode.insert(c);
+			}
+			else {
+				currNode = n;
+			}
+		}
+		currNode.setEndsWord(true);
 	    //TODO: Implement this method.
-	    return false;
+	    return true;
 	}
 	
 	/** 
@@ -38,8 +50,15 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 */
 	public int size()
 	{
-	    //TODO: Implement this method
-	    return 0;
+		int size = 0;
+	    TrieNode next = null;
+ 		for (Character c : root.getValidNextCharacters()) {
+ 			next = root.getChild(c);
+ 			if (next.endsWord())
+ 				size++;
+ 		}
+		
+	    return size;
 	}
 	
 	
@@ -47,8 +66,19 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	@Override
 	public boolean isWord(String s) 
 	{
-	    // TODO: Implement this method
-		return false;
+		TrieNode currNode = null;
+		for (char c:s.toLowerCase().toCharArray())
+		{
+			TrieNode n = root.getChild(c);
+			if (n == null){
+				return false;
+			}
+			else {
+				currNode = n;
+			}
+		}
+		
+		return (currNode.endsWord()) ;
 	}
 
 	/** 
